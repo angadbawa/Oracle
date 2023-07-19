@@ -16,7 +16,7 @@ Complementing SAM's pixel selection prowess, the Stable Diffusion model is emplo
 
 Whether one wishes to create artistic masterpieces, perform image restorations, or explore image manipulation, this web application opens up a world of possibilities, transforming the way people interact with images and AI technologies. With its user-friendly design and cutting-edge algorithms, the project empowers billions of individuals to unleash their creativity, bringing artistry and imagination to life within seconds.
 
-## <div align="center">How to run?</div>
+## How to run?
 ```
 git clone https://github.com/angadbawa/Oracle.git
 cd stable-diffusion-with-sam-main/
