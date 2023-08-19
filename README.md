@@ -28,4 +28,4 @@ python app.py
 
 ## <div align="center">Output</div>
 
-![output](./resources/output.jpg)
+![output](./output.jpg)
