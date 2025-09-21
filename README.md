@@ -1,21 +1,71 @@
+# 🎨 Oracle: SAM + Stable Diffusion
+
+**Interactive image inpainting combining Segment Anything Model (SAM) with Stable Diffusion for powerful AI-driven image editing.**
+
 <div align="center">
-<h1>
-    Oracle Bridge for SAM and Stable Diffusion
-</h1>
 
-<h4>
-The project  combines the "Segment Anything Model" (SAM) for interactive pixel selection and the "Stable Diffusion" model for inpainting based on user prompts, enabling users to create realistic image edits with a single click.
-</h4>
+![Oracle Demo](./output.jpg)
 
-## <div align="center">Overview</div>
-The project is an innovative web application that harnesses the power of cutting-edge AI models to provide users with an extraordinary image editing experience. By seamlessly integrating the "Segment Anything Model" (SAM) and the "Stable Diffusion" model, this application enables users to effortlessly create stunning image edits with unprecedented ease and flexibility.
+*Oracle enables users to create realistic image edits with a single click*
 
-At the heart of this web app lies SAM, a state-of-the-art AI model capable of intelligently "cutting out" any object in an image with just a single click. Users can simply select pixels of interest, and SAM takes care of the rest, eliminating the need for tedious manual segmentation tasks. Moreover, SAM showcases its exceptional zero-shot generalization ability, allowing it to adapt to unfamiliar objects and images without requiring additional training.
+</div>
 
-Complementing SAM's pixel selection prowess, the Stable Diffusion model is employed for inpainting, granting users the power to generate photo-realistic images based on text input. By offering an interface that seamlessly combines user prompts and images, users can now effortlessly create incredible art with just a few clicks.
+## ✨ Features
 
-Whether one wishes to create artistic masterpieces, perform image restorations, or explore image manipulation, this web application opens up a world of possibilities, transforming the way people interact with images and AI technologies. With its user-friendly design and cutting-edge algorithms, the project empowers billions of individuals to unleash their creativity, bringing artistry and imagination to life within seconds.
+- **🖱️ Click-to-Segment**: Interactive pixel selection with SAM
+- **🎨 AI Inpainting**: Text-guided image generation with Stable Diffusion  
+- **🌐 Web Interface**: User-friendly Gradio web app
+- **⚡ CLI Tools**: Command-line interface for batch processing
+- **⚙️ Configurable**: YAML-based configuration system
+- **🔧 Modular**: Clean, maintainable code architecture
+- **📊 Logging**: Comprehensive logging and error handling
 
+## 🚀 Quick Start
+
+### 1. Installation
+
+```bash
+# Clone repository
+git clone https://github.com/angadbawa/Oracle.git
+cd Oracle
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Download SAM weights (if not already present)
+# Place sam_vit_h_4b8939.pth in ./weights/ directory
+```
+
+### 2. Launch Web Interface
+
+```bash
+# Start Gradio web app
+python main.py web
+
+# Custom host/port
+python main.py web --host 0.0.0.0 --port 8080
+
+# Create public link
+python main.py web --share
+```
+
+### 3. Command Line Usage
+
+```bash
+# Inpaint from click coordinates
+python main.py cli inpaint-click image.jpg 100 150 "a beautiful red flower"
+
+# Inpaint with existing mask
+python main.py cli inpaint-mask image.jpg mask.jpg "a sunset sky"
+
+# Generate mask only
+python main.py cli mask-only image.jpg "100,150,200,250"
+
+# Show system information
+python main.py info
+```
+
+## 🏗️ Architecture
 
 ### **Modular Structure**
 ```
@@ -28,14 +78,15 @@ Oracle/
 │   ├── ui/                       # User interfaces
 │   │   ├── gradio_app.py         # Web interface
 │   │   └── cli_app.py            # Command line interface
-│   └── utils/                    # Utilities
-│       ├── config.py             # Configuration management
-│       ├── logger.py             # Logging setup
-│       └── helpers.py            # Helper functions
-├── config/
-│   └── default.yaml              # Configuration file
+│   ├── utils/                    # Utilities
+│   │   ├── config.py             # Configuration management
+│   │   ├── logger.py             # Logging setup
+│   │   └── helpers.py            # Helper functions
+│   └── config/
+│       └── default.yaml          # Configuration file
 ├── main.py                       # Unified entry point
-└── requirements.txt              # Dependencies
+├── requirements.txt              # Dependencies
+└── README.md                     # This file
 ```
 
 ### **Key Components**
@@ -51,7 +102,7 @@ Oracle/
 Oracle uses YAML configuration files for easy customization:
 
 ```yaml
-# config/default.yaml
+# src/config/default.yaml
 models:
   sam:
     model_type: "vit_h"
@@ -87,10 +138,10 @@ python main.py web --device cuda
 
 The Gradio web interface provides an intuitive way to use Oracle:
 
-1. **Upload Image**: Load your image
-2. **Click to Segment**: Click on areas to segment with SAM
-3. **Enter Prompt**: Describe what you want to generate
-4. **Generate**: Create AI-powered inpainting results
+1. **📸 Upload Image**: Load your image
+2. **🖱️ Click to Segment**: Click on areas to segment with SAM
+3. **✨ Enter Prompt**: Describe what you want to generate
+4. **🎨 Generate**: Create AI-powered inpainting results
 
 ### **Features**
 - Interactive point selection
@@ -99,7 +150,7 @@ The Gradio web interface provides an intuitive way to use Oracle:
 - System information display
 - Example prompts
 
-## CLI Interface
+## 💻 CLI Interface
 
 Powerful command-line tools for automation and batch processing:
 
@@ -129,12 +180,12 @@ python main.py cli mask-only \
   --output-dir ./masks
 ```
 
-## Advanced Usage
+## 🔧 Advanced Usage
 
 ### **Python API**
 
 ```python
-from src import ImageProcessor, get_config
+from src import ImageProcessor
 
 # Initialize processor
 processor = ImageProcessor()
@@ -191,7 +242,62 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 python main.py web --device cuda
 ```
 
-## <div align="center">Output</div>
+## 🐛 Troubleshooting
 
-![output](./output.jpg)
+### **Common Issues**
 
+1. **SAM weights not found**
+   ```bash
+   # Download SAM weights
+   wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
+   mkdir -p weights && mv sam_vit_h_4b8939.pth weights/
+   ```
+
+2. **Out of memory errors**
+   ```yaml
+   # Enable memory optimizations in config
+   performance:
+     enable_memory_efficient_attention: true
+     enable_cpu_offload: true
+   ```
+
+3. **Slow inference**
+   ```bash
+   # Use GPU acceleration
+   python main.py web --device cuda
+   
+   # Reduce inference steps
+   python main.py cli inpaint-click image.jpg 100 150 "prompt" --steps 10
+   ```
+
+### **Logging**
+
+Enable debug logging for troubleshooting:
+
+```bash
+python main.py web --log-level DEBUG
+```
+
+## 🚀 Usage Examples
+
+### **Web Interface**
+```bash
+# Basic launch
+python main.py web
+
+# Advanced launch with custom settings
+python main.py web --host 0.0.0.0 --port 8080 --device cuda --share
+```
+
+### **CLI Operations**
+```bash
+# System information
+python main.py info
+
+# Batch processing with advanced settings
+python main.py cli inpaint-click \
+  input.jpg 200 300 "vibrant flowers in a garden" \
+  --negative "blurry, low quality, distorted" \
+  --steps 25 --guidance 7.5 \
+  --output-dir ./batch_results
+```
